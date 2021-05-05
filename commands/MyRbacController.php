@@ -1,11 +1,17 @@
 <?php
-namespace console\controller;
+namespace app\commands;
+
+
+/*Запуск на сервере 
+php yii my-rbac/init
+*/
+
 
 use Yii;
 use yii\console\Controller;
 
 
-class MyRbacController extends Controller{
+class MyRbacController extends Controller {
 
   public function actionInit(){
     $auth = Yii::$app->authManager;
@@ -20,21 +26,22 @@ class MyRbacController extends Controller{
 
 //записываем роли в DB
     $auth->add($admin);
+    $admin->description = 'Администратор';
     $auth->add($manager);
     $auth->add($worker);
 
 // создаем разрешения
     $viewVacation = $auth->createPermission('viewVacation');
-    $viewVacation->descripion = 'просмотр даты отпусков';
+    $viewVacation->description = 'просмотр даты отпусков';
 
     $addVacation = $auth->createPermission('addVacation');
-    $addVacation->descripion = 'добавление даты отпуска';
+    $addVacation->description = 'добавление даты отпуска';
 
     $updateVacation = $auth->createPermission('updateVacation');
-    $updateVacation->descripion = 'обновление даты отпуска';
+    $updateVacation->description = 'обновление даты отпуска';
 
     $blockedUpdate = $auth->createPermission('blockedUpdate');
-    $blockedUpdate->descripion = 'блокировать обновление даты';
+    $blockedUpdate->description = 'блокировать обновление даты';
 
 //записываем разрешения в DB
     $auth->add($viewVacation);
@@ -53,6 +60,14 @@ class MyRbacController extends Controller{
 
     $auth->addChild($admin, $worker);
     $auth->addChild($admin, $updateVacation);
+
+
+// Назначаем роли
+    $auth->assign($admin, 1);
+    $auth->assign($manager, 2);
+    $auth->assign($worker, 3);
+    $auth->assign($worker, 4);
+    $auth->assign($worker, 5);
 
 
   }
