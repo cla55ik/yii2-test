@@ -10,6 +10,7 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\User;
+use app\models\Vacations;
 
 class SiteController extends Controller
 {
@@ -126,6 +127,7 @@ class SiteController extends Controller
     {
         return $this->render('about');
     }
+
 
 
 

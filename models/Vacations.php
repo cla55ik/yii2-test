@@ -3,6 +3,7 @@
 namespace app\models;
 
 use yii\db\ActiveRecord;
+use yii\models\User;
 
 class Vacations extends ActiveRecord{
 
@@ -10,5 +11,6 @@ class Vacations extends ActiveRecord{
     {
         return '{{%vacation}}';
     }
+
 
 }
