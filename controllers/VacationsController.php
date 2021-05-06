@@ -33,6 +33,9 @@ class VacationsController extends Controller {
   public function actionIndex(){
 
     $current_user = \Yii::$app->user->id;
+    $vacation_user = User::findOne($current_user);
+
+
     $query = Vacations::find();
     $vacations = $query->all();
     $user = $query->where(['user_id'=>$current_user])
@@ -41,8 +44,23 @@ class VacationsController extends Controller {
     //$model = $query->where(['user_id'=>$current_user])
     //->one();
 
-    $model = TestForm::findOne(['user_id'=>$current_user]);
+    //$model = TestForm::findOne(['user_id'=>$current_user]);
 
+    if ($vacation_user == NULL){
+      $model = TestForm::findOne($current_user);
+
+      if($model->load(Yii::$app->request->post())){
+         if($model->validate()){
+           Yii::$app->session->setFlash('success','Данные обновлены');
+           $model->save(false);
+           return $this->refresh();
+         }else{
+           Yii::$app->session->setFlash('error', 'Ошибка');
+         }
+       }
+    }else{
+
+    $model = new TestForm();
 
     if($model->load(Yii::$app->request->post())){
        if($model->validate()){
@@ -53,7 +71,7 @@ class VacationsController extends Controller {
          Yii::$app->session->setFlash('error', 'Ошибка');
        }
      }
-
+}
 
 
 
@@ -73,7 +91,8 @@ class VacationsController extends Controller {
       'vacations'=>$vacations,
       'user'=>$user,
       'current_user'=>$current_user,
-      'model' => $model
+      'model' => $model,
+      'vacation_user' => $vacation_user
     ]);
   }
 

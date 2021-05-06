@@ -49,7 +49,7 @@ use yii\helpers\Html;
 <?=\Yii::$app->user->id;?>
 
 
-<div>USER ID = <?=$model['user_id'];?><div>
+<div>USER ID = <?=$vacation_user['id'];?><div>
 <div>DATE START  <?=$model['date_start'];?><div>
 <div>DATE END  <?=$model['date_end'];?><div>
 <div>change_attr =   <?=$model['change_attr'];?><div>
