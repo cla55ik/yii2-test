@@ -1,89 +1,82 @@
-
 <?php
 use yii\widgets\ActiveForm;
+
 use yii\helpers\Html;
  ?>
 
-
-
-<div class="section">
   <div class="row">
-    <div class="col">
-      <h1>Календарь отпусков для пользователя <?= $user['username'];?>  UserID= <?=\Yii::$app->user->id;?></h1>
-
+    <div class="col title">
+          <h1>Отпуск. Планирование </h1>
+          <h2> <?= $user['username'];?>  UserID= <?=\Yii::$app->user->id;?></h2>
     </div>
-
+  </div>
 
   <div class="row">
-    <div class="col">
-
-
-
-      <?= Html::a('Смотреть все', ['viewall'], ['class'=>'btn btn-success']);?>
-      <?= Html::a('Управлять', ['block'], ['class'=>'btn btn-success']);?>
-
-
-
+    <div class="col control">
       <?php if(empty($vacation) || $user['id'] == NULL) : ?>
-        <p>Вы еще не запланировали отпуск</p>
+        <div class="alert alert-warning">
+          Вы еще не запланировали отпуск
+        </div>
         <?= Html::a('Запланировать отпуск', ['create'], ['class'=>'btn btn-success']);?>
       <?php else :?>
-        <div class="">
+        <div class="alert alert-success">
           Вы запланировали отпуск с <?= $vacation['date_start'];?> до <?= $vacation['date_end'];?>
         </div>
 
         <?php if($vacation['change_attr']) :?>
-          <p>Вы можете обновить даты отпуска</p>
-          <?= Html::a('Обновить даты', ['update'], ['class'=>'btn btn-success']);?>
+          <div class="alert alert-success">
+            <span>Вы можете обновить даты отпуска</span>
+            <span><?= Html::a('Обновить даты', ['update'], ['class'=>'btn btn-success']);?></span>
+          </div>
+
+
         <?php else: ?>
-          <p class="text-uppercase">Даты вашего отпуска согласованы</p>
+          <div class="alert alert-warning">
+              <p class="text-uppercase">Даты вашего отпуска согласованы</p>
+          </div>
         <?php endif; ?>
       <?php endif;?>
-<?php if(\Yii::$app->user->can('manager')): ?>
-  <p>$blockedUpdate</p>
-  <?php else: ?>
-    <p>not can</p>
-  <?php endif; ?>
-
-
-  <?php print_r(\Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId()));?>
-
-  <?php print_r($user_cur);?>
-<?php print_r($vacation_cur);?>
-
-
-
-
-
+    </div>
+  </div>
+<div class="row">
+  <div class="col title">
+    <h2>Список отпусков всех сотрудников</h2>
+  </div>
+</div>
 
 
 <div class="row">
+  <div class="col">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Сотрудник</th>
+          <th scope="col">Даты отпуска</th>
+          <th scope="col">Статус</th>
+          <th scope="col">Действие</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php $num=1; ?>
+        <?php foreach ($vacations as $vacation): ?>
+          <?php $user=$vacation['user'];
+            $num ++;
+          ?>
+          <tr>
+            <th scope="col"><?= $num  ?></th>
+            <td><?=$user['username'];  ?></td>
+            <td>с <?=$vacation['date_start'];  ?> по <?=$vacation['date_end'];  ?></td>
+            <td><?= $vacation['change_attr']; ?></td>
 
-
-<?php foreach ($model as $vacation) : ?>
-  <div class="col-lg-3">
-    <?= $vacation['id']; ?>
-  </div>
-  <div class="col-lg-3">
-    <?= $vacation['date_start']; ?> -
-    <?= $vacation['date_start']; ?>
-  </div>
-  <div class="col-lg-3">
-    <?= $vacation['change_attr']; ?>
-  </div>
-  <?php if($vacation['change_attr']) : ?>
-  <div class="col-lg-3">
-
-    <?= Html::a('Утвердить', ['block'], ['class'=>'btn btn-success']);?>
-  </div>
-  <?php else : ?>
-    <div class="col-lg-3">
-      Отпуск утвержден
-    </div>
-  <?php endif; ?>
-<?php endforeach; ?>
-</div>
+            <td>
+              <?= Html::a('Управлять', ['block'], ['class'=>'btn btn-success']);?>
+              <?= Html::a('Принять', ['/vacations/block','value' => $vacation['id']], ['class'=>'btn btn-primary']) ;?>
+            </td>
+          </tr>
+        <?php endforeach; ?>
+      </tbody>
+    </table>
 
   </div>
-</div>
 </div>

@@ -113,3 +113,15 @@ a.desc:after {
 .nav > li > form > button.logout:focus {
     outline: none;
 }
+
+
+
+
+
+.title {
+  padding-bottom: 30px;
+}
+
+.control {
+  padding-bottom:30px;
+}

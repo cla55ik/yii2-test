@@ -93,31 +93,55 @@ class VacationsController extends Controller {
 
 
 
-  public function actionBlock()
+  public function actionBlock($value)
   {
     $vacations = Vacations::find()->all();
-    return $this->render('block', ['vacations' => $vacations]);
+    $vacation = Vacations::findOne(['id' => $value]);
+    $attr = $vacation->change_attr;
+    if($attr){
+      $vacation->change_attr = 0;
+      $vacation->save();
+      return $this->redirect(Yii::$app->request->referrer);
+
+
+    }else{
+      $vacation->change_attr = 1;
+      $vacation->save();
+      return $this->redirect(Yii::$app->request->referrer);
+
+
+    }
+
+
+
+
   }
 
 
 
-  public function actionViewall()
+  public function actionIndex()
   {
-      $vacations = Vacations::find()
+      $current_user = \Yii::$app->user->id;
+      $user = User::findOne($current_user);
+      $vacation = Vacations::findOne(['user_id'=>$current_user]);
+
+      $model = Vacations::find()
           ->joinWith('user')
+          ->asArray()
           ->all();
     //  $user = $vacations->user;
-      
-      return $this->render('viewall', [
 
-          'vacations'=>$vacations,
+      return $this->render('index', [
+          'vacation'=>$vacation,
+          'vacations'=>$model,
+          'user'=>$user,
       ]);
   }
 
 
 
 
-  public function actionIndex(){
+  public function actionViewAll(){
 
 
  $roles = \Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
@@ -164,7 +188,7 @@ $vacation_cur = $user->vacation;
 
       }
 */
-      return $this->render('index',[
+      return $this->render('viewall',[
         'user'=>$user,
         'model'=>$model,
         'vacation'=>$vacation,

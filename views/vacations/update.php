@@ -3,38 +3,28 @@
 use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 
+
  ?>
 
+  <div class="row">
+    <div class="col title">
+      <h1>Изменить даты отпуска</h1>
+      <p>Вы запланировали отпуск с <?= $model['date_start'];?> до <?= $model['date_end'];?></p>
+    </div>
+  </div>
 
-
-<div class="section">
   <div class="row">
     <div class="col">
-      <h1>Добавить даты отпуска</h1>
 
+      <?= $this->render('_form', ['model' => $model]) ?>
+
+
+    <div class="col">
+      User ID = <?= Yii::$app->user->id;?>
     </div>
 
 
-  <div class="row">
-    <div class="col">
-
-    <?= $this->render('_form', ['model' => $model]) ?>
 
 
-
-
-<?=\Yii::$app->user->id;?>
-
-<?php print_r($model); ?>
-
-<div class="">
-User ID = <?= Yii::$app->user->id;?>
-</div>
-
-
-
-
-</div>
-</div>
-</div>
-</div>
+    </div>
+  </div>
