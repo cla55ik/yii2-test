@@ -20,9 +20,10 @@ class VacationsController extends Controller {
 
               'rules' => [
                   [
-                      'actions' => ['index','create','udate','viewall'],
-                      'allow' => true,
-                      'roles' => ['@'],
+                    'actions' => ['block'],
+                    'allow' => true,
+                    'roles' => ['manager', 'admin'],
+
                   ],
                   [
                     'actions' => ['update', 'create'],
@@ -31,11 +32,12 @@ class VacationsController extends Controller {
 
                   ],
                   [
-                    'actions' => ['block'],
-                    'allow' => true,
-                    'roles' => ['manager', 'admin'],
-
+                      'actions' => ['index','viewall'],
+                      'allow' => true,
+                      'roles' => ['@'],
                   ],
+
+
               ],
           ],
 
