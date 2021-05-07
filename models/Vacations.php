@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+
 use yii\db\ActiveRecord;
 use app\models\User;
 use Yii;
@@ -15,6 +16,14 @@ class Vacations extends ActiveRecord{
 
 
 
+    public function attributeLabels(){
+        return [
+          'date_start' => 'Дата начала',
+          'date_end'=> 'Дата конца',
+
+        ];
+    }
+
 
 
 
@@ -23,16 +32,19 @@ class Vacations extends ActiveRecord{
     {
       return [
         [['date_start', 'date_end'], 'required'],
+        [['date_start', 'date_end'], 'safe'],
+        ['date_end', function(){
+            if($this->date_start > $this->date_end){
+              $this->addError('date_end', 'Дата окончания отпуска должна быть больше даты начала');
+            }
+        }
+
+      ],
       ];
     }
 
 
-      public function attributeLabels(){
-          return [
-            'date_start' => 'Дата начала',
-            'date_end'=> 'Дата конца'
-          ];
-      }
+
 
 
       public function getUser()

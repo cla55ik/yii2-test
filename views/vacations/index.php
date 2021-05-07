@@ -58,7 +58,7 @@ use yii\helpers\Html;
         </tr>
       </thead>
       <tbody>
-        <?php $num=1; ?>
+        <?php $num=0; ?>
         <?php foreach ($vacations as $vacation): ?>
           <?php $user=$vacation['user'];
             $num ++;
@@ -70,8 +70,8 @@ use yii\helpers\Html;
             <td><?= $vacation['change_attr']; ?></td>
 
             <td>
-              <?= Html::a('Управлять', ['block'], ['class'=>'btn btn-success']);?>
-              <?= Html::a('Принять', ['/vacations/block','value' => $vacation['id']], ['class'=>'btn btn-primary']) ;?>
+
+              <?= Html::a('Согласовать и зафиксировать', ['/vacations/block','value' => $vacation['id']], ['class'=>'btn btn-primary']) ;?>
             </td>
           </tr>
         <?php endforeach; ?>

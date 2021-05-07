@@ -45,9 +45,7 @@ class VacationsController extends Controller {
 
 
 
-  public function actionTestpage(){
-    return $this->render('testpage');
-  }
+
 
   public function actionCreate()
   {
@@ -82,7 +80,7 @@ class VacationsController extends Controller {
        if($model->validate()){
          Yii::$app->session->setFlash('success','Данные обновлены');
          $model->save();
-         return $this->refresh();
+         return $this->redirect('index');
        }else{
          Yii::$app->session->setFlash('error', 'Ошибка');
        }
@@ -156,38 +154,6 @@ $vacation_cur = $user->vacation;
     $model =  Vacations::find()->all();
 
 
-
-
-    //Проверем есть ли запись в таблице Vacation для залогиненного юзера
-  /*  if($vacation == NULL){
-
-      $model = new Vacations();
-      $count = Vacations::find()->count();
-      $model->user_id = $current_user;
-      $model->id=$count;
-
-
-
-
-      $model->save(false);
-
-
-    }else{
-        $model = Vacations::findOne(['user_id'=>$current_user]);
-
-        if($model->load(Yii::$app->request->post())){
-           if($model->validate()){
-             Yii::$app->session->setFlash('success','Данные обновлены');
-             $model->save(false);
-             return $this->refresh();
-           }else{
-             Yii::$app->session->setFlash('error', 'Ошибка');
-           }
-         }
-
-
-      }
-*/
       return $this->render('viewall',[
         'user'=>$user,
         'model'=>$model,
