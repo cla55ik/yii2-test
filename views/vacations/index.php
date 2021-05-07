@@ -2,7 +2,6 @@
 <?php
 use yii\widgets\ActiveForm;
 use yii\helpers\Html;
-
  ?>
 
 
@@ -10,52 +9,80 @@ use yii\helpers\Html;
 <div class="section">
   <div class="row">
     <div class="col">
-      <h1>Календарь отпусков для пользователя</h1>
+      <h1>Календарь отпусков для пользователя <?= $user['username'];?>  UserID= <?=\Yii::$app->user->id;?></h1>
 
     </div>
 
 
   <div class="row">
     <div class="col">
-      <?php if(empty($vacations) || $user['user_id'] == NULL) : ?>
-        <p>Данные не заполнены</p>
-      <?php else :?>
-        <p>Данные есть</p>
-        <p>userID= <?=$user['user_id'];?></p>
-        <p>Дата начала отпуска: <?= $user['date_start'];?></p>
-        <p>Дата конца отпуска: <?= $user['date_end'];?></p>
 
+
+
+      <?= Html::a('Смотреть все', ['viewall'], ['class'=>'btn btn-success']);?>
+      <?= Html::a('Управлять', ['block'], ['class'=>'btn btn-success']);?>
+
+
+
+      <?php if(empty($vacation) || $user['id'] == NULL) : ?>
+        <p>Вы еще не запланировали отпуск</p>
+        <?= Html::a('Запланировать отпуск', ['create'], ['class'=>'btn btn-success']);?>
+      <?php else :?>
+        <div class="">
+          Вы запланировали отпуск с <?= $vacation['date_start'];?> до <?= $vacation['date_end'];?>
+        </div>
+
+        <?php if($vacation['change_attr']) :?>
+          <p>Вы можете обновить даты отпуска</p>
+          <?= Html::a('Обновить даты', ['update'], ['class'=>'btn btn-success']);?>
+        <?php else: ?>
+          <p class="text-uppercase">Даты вашего отпуска согласованы</p>
+        <?php endif; ?>
       <?php endif;?>
-<?php if(\Yii::$app->user->can('blockedUpdate')): ?>
+<?php if(\Yii::$app->user->can('manager')): ?>
   <p>$blockedUpdate</p>
   <?php else: ?>
     <p>not can</p>
   <?php endif; ?>
 
 
-  <?php if($user['change_attr']): ?>
-    <p>Даты можно изменить</p>
-    <?php $form = ActiveForm::begin() ?>
-    <?= $form->field($model,'date_start')->textInput(['type' => 'date']); ?>
-    <?= $form->field($model,'date_end')->textInput(['type' => 'date']); ?>
-    <?= Html::submitButton('Сохранить',['class'=>'btn btn-success'])?>
-    <?php ActiveForm::end() ?>
-  <?php else: ?>
-    <p>Дата подтверждена, изменить невозможно</p>
-  <?php endif; ?>
+  <?php print_r(\Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId()));?>
+
+  <?php print_r($user_cur);?>
+<?php print_r($vacation_cur);?>
 
 
 
-<?=\Yii::$app->user->id;?>
 
 
-<div>USER ID = <?=$vacation_user['id'];?><div>
-<div>DATE START  <?=$model['date_start'];?><div>
-<div>DATE END  <?=$model['date_end'];?><div>
-<div>change_attr =   <?=$model['change_attr'];?><div>
 
 
+<div class="row">
+
+
+<?php foreach ($model as $vacation) : ?>
+  <div class="col-lg-3">
+    <?= $vacation['id']; ?>
+  </div>
+  <div class="col-lg-3">
+    <?= $vacation['date_start']; ?> -
+    <?= $vacation['date_start']; ?>
+  </div>
+  <div class="col-lg-3">
+    <?= $vacation['change_attr']; ?>
+  </div>
+  <?php if($vacation['change_attr']) : ?>
+  <div class="col-lg-3">
+
+    <?= Html::a('Утвердить', ['block'], ['class'=>'btn btn-success']);?>
+  </div>
+  <?php else : ?>
+    <div class="col-lg-3">
+      Отпуск утвержден
     </div>
+  <?php endif; ?>
+<?php endforeach; ?>
+</div>
 
   </div>
 </div>

@@ -100,6 +100,8 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return $this->getPrimaryKey();
     }
+
+
     /**
      * @inheritdoc
      */
@@ -156,6 +158,11 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
 
-  
+    public function getVacation()
+    {
+      $this->hasOne(Vacations::className(),['user_id' => 'id']);
+    }
+
+
 
 }
