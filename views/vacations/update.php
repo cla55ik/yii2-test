@@ -9,9 +9,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
   <div class="row">
     <div class="col-12 title">
-      <h1>Изменить даты отпуска</h1>
+      <h1>Изменить даты отпуска !</h1>
 
-      <h2> <span><?= $model->getFio();?></span><span class="gray-title"></span> </h2>
+      <h2> <span><?= $model->getUserFio();?></span></h2>
       <?php if (!$model['change_attr']): ?>
         <div class="alert alert-warning">
           Даты вашего отпуска устверждены руководителем. Вы не можете их изменить.

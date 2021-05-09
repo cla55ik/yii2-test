@@ -167,6 +167,10 @@ class User extends ActiveRecord implements IdentityInterface
       return $this->fio;
     }
 
+    public function getPost(){
+      return $this->post;
+    }
+
 
 
 }

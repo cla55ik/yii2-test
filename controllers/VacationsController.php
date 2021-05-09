@@ -45,7 +45,7 @@ class VacationsController extends Controller {
   }
 
 
-
+  
 
 
 
@@ -58,20 +58,19 @@ class VacationsController extends Controller {
 
     if(empty($vacation)){
 
-    $model = new Vacations();
-    $model->user_id = $current_user;
-    $model->id = $max + 1;
+      $model = new Vacations();
+      $model->user_id = $current_user;
+      $model->id = $max + 1;
 
 
-    if($model->load(Yii::$app->request->post()) && $model->save()) {
-      return $this->redirect(['index']);
+      if($model->load(Yii::$app->request->post()) && $model->save()) {
+        return $this->redirect(['index']);
+      }else if($model->save()){
+        Yii::$app->session->setFlash('error', 'Ошибка');
+      }
+
+        return $this->render('create', ['model' => $model]);
     }else{
-      Yii::$app->session->setFlash('error', 'Ошибка');
-    }
-
-      return $this->render('create', ['model' => $model]);
-  }
- else{
       return $this->redirect(['index']);
 
 }
@@ -82,9 +81,6 @@ class VacationsController extends Controller {
 
   public function actionUpdate()
   {
-
-    $today = date('Y.m.d');
-
 
 
     $current_user = \Yii::$app->user->id;
@@ -107,7 +103,7 @@ class VacationsController extends Controller {
          Yii::$app->session->setFlash('error', 'Ошибка');
        }
      }
-     return $this->render('update', ['model' => $model, 'today' => $today]);
+     return $this->render('update', ['model' => $model]);
   }
 
 
@@ -115,18 +111,19 @@ class VacationsController extends Controller {
 
   public function actionBlock($value)
   {
-    $vacations = Vacations::find()->all();
+
     $vacation = Vacations::findOne(['id' => $value]);
+
     $attr = $vacation->change_attr;
     if($attr){
       $vacation->change_attr = 0;
-      $vacation->save();
+      $vacation->save(false);
       return $this->redirect(Yii::$app->request->referrer);
 
 
     }else{
       $vacation->change_attr = 1;
-      $vacation->save();
+      $vacation->save(false);
       return $this->redirect(Yii::$app->request->referrer);
 
 

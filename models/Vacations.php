@@ -54,7 +54,7 @@ class Vacations extends ActiveRecord{
     }
 
 
-    public function afterFind()
+      public function afterFind()
         {
           $date_start = strtotime($this->date_start);
           $this->date_start = date('d.m.Y',$date_start);
@@ -64,10 +64,21 @@ class Vacations extends ActiveRecord{
         }
 
 
-      public function getUser()
-      {
-        return $this->hasOne(User::className(), ['id' => 'user_id']);
-      }
+        public function beforeSave($insert)
+        {
+          $date_start = strtotime($this->date_start);
+          $this->date_start = date('Y-m-d', $date_start);
+          $date_end = strtotime($this->date_end);
+          $this->date_end = date('Y-m-d', $date_end);
+
+          return parent::beforeSave($insert);
+        }
+
+
+        public function getUser()
+        {
+          return $this->hasOne(User::className(), ['id' => 'user_id']);
+        }
 
 
 
@@ -82,10 +93,15 @@ class Vacations extends ActiveRecord{
         }
 
 
-      public function getFio(){
-        $user = User::findOne(['id'=>User::findIdentity(2)]);
+      public function getUserFio(){
+        $user = User::findOne(['id'=>User::findIdentity(\Yii::$app->user->id)]);
 
         return $user->getFio();
+      }
+
+      public function getUserPost(){
+        $user = User::findOne(['id'=>User::findIdentity(\Yii::$app->user->id)]);
+        return $user->getPost();
       }
 
 
