@@ -6,13 +6,10 @@ use yii\helpers\Html;
 
  ?>
 
-
-
-
   <div class="row">
     <div class="col title">
       <h1>Запланировать даты отпуска</h1>
-      
+
 
       <?php if (empty($model)): ?>
         <div class="alert alert-warning">

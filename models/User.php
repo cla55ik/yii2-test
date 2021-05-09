@@ -160,7 +160,11 @@ class User extends ActiveRecord implements IdentityInterface
 
     public function getVacation()
     {
-      $this->hasOne(Vacations::className(),['user_id' => 'id']);
+        return $this->hasOne(Vacations::className(),['user_id' => 'id']);
+    }
+
+    public function getFio(){
+      return $this->fio;
     }
 
 

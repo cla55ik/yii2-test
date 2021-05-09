@@ -120,8 +120,18 @@ a.desc:after {
 
 .title {
   padding-bottom: 30px;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 .control {
   padding-bottom:30px;
+}
+
+
+.gray-title {
+  font-size: 0.8em;
+  color: #666;
+  margin-left: 15px;
+
 }

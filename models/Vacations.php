@@ -5,6 +5,7 @@ namespace app\models;
 
 use yii\db\ActiveRecord;
 use app\models\User;
+use yii\base\Model;
 use Yii;
 
 class Vacations extends ActiveRecord{
@@ -33,6 +34,15 @@ class Vacations extends ActiveRecord{
       return [
         [['date_start', 'date_end'], 'required'],
         [['date_start', 'date_end'], 'safe'],
+        ['date_start', function(){
+            $date_start = strtotime($this->date_start);
+
+            $today = strtotime(date('d.m.Y'));
+            if($today > $date_start){
+              $this->addError('date_start', 'Дата начала отпуска должна быть больше сегодняшней');
+            }
+          }
+        ],
         ['date_end', function(){
             if($this->date_start > $this->date_end){
               $this->addError('date_end', 'Дата окончания отпуска должна быть больше даты начала');
@@ -44,7 +54,14 @@ class Vacations extends ActiveRecord{
     }
 
 
+    public function afterFind()
+        {
+          $date_start = strtotime($this->date_start);
+          $this->date_start = date('d.m.Y',$date_start);
+          $date_end = strtotime($this->date_end);
+          $this->date_end = date('d.m.Y',$date_end);
 
+        }
 
 
       public function getUser()
@@ -65,13 +82,11 @@ class Vacations extends ActiveRecord{
         }
 
 
+      public function getFio(){
+        $user = User::findOne(['id'=>User::findIdentity(2)]);
 
-
-
-      public function getInsertId(){
-
+        return $user->getFio();
       }
-
 
 
 

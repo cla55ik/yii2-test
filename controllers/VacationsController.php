@@ -32,7 +32,7 @@ class VacationsController extends Controller {
 
                   ],
                   [
-                      'actions' => ['index','viewall'],
+                      'actions' => ['index'],
                       'allow' => true,
                       'roles' => ['@'],
                   ],
@@ -82,6 +82,11 @@ class VacationsController extends Controller {
 
   public function actionUpdate()
   {
+
+    $today = date('Y.m.d');
+
+
+
     $current_user = \Yii::$app->user->id;
     $user = User::findOne($current_user);
     $vacation = Vacations::findOne(['user_id'=>$current_user]);
@@ -102,7 +107,7 @@ class VacationsController extends Controller {
          Yii::$app->session->setFlash('error', 'Ошибка');
        }
      }
-     return $this->render('update', ['model' => $model]);
+     return $this->render('update', ['model' => $model, 'today' => $today]);
   }
 
 
@@ -144,7 +149,7 @@ class VacationsController extends Controller {
           ->joinWith('user')
           ->asArray()
           ->all();
-    //  $user = $vacations->user;
+
 
       return $this->render('index', [
           'vacation'=>$vacation,
@@ -156,32 +161,7 @@ class VacationsController extends Controller {
 
 
 
-  public function actionViewAll(){
 
-
- $roles = \Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
-
-    $current_user = \Yii::$app->user->id;
-    $user = User::findOne($current_user);
-    $vacation = Vacations::findOne(['user_id'=>$current_user]);
-
-$user_cur = $vacation->user;
-$vacation_cur = $user->vacation;
-
-    $model =  Vacations::find()->all();
-
-
-      return $this->render('viewall',[
-        'user'=>$user,
-        'model'=>$model,
-        'vacation'=>$vacation,
-        'roles'=>$roles,
-        'user_cur'=>$user_cur,
-        'vacation_cur'=>$vacation_cur,
-      ]);
-
-
-  }
 
 
 

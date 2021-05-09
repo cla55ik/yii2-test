@@ -2,17 +2,18 @@
 use yii\widgets\ActiveForm;
 
 use yii\helpers\Html;
+
+$this->title = 'Отпуск';
+$this->params['breadcrumbs'][] = $this->title;
  ?>
 
   <div class="row">
-    <div class="col title">
+    <div class="col-lg-6 title">
           <h1>Отпуск. Планирование </h1>
-          <h2> <?= $user['username'];?>  UserID= <?=\Yii::$app->user->id;?></h2>
-    </div>
-  </div>
+          <h2> <span><?= $user['fio'];?></span><span class="gray-title"><?= $user['post'];?></span> </h2>
 
-  <div class="row">
-    <div class="col control">
+    </div>
+    <div class="col-lg-6 control">
       <?php if (\Yii::$app->user->can('updateVacation') || \Yii::$app->user->can('addVacation')): ?>
 
 
@@ -41,6 +42,10 @@ use yii\helpers\Html;
       <?php endif;?>
       <?php endif; ?>
     </div>
+  </div>
+
+  <div class="row">
+
   </div>
 <div class="row">
   <div class="col title">
@@ -72,7 +77,7 @@ use yii\helpers\Html;
           ?>
           <tr>
             <th scope="col"><?= $num  ?></th>
-            <td><?=$user['username'];  ?></td>
+            <td><span><?=$user['fio'];?></span><span class="gray-title"><?=$user['post'];?></span></td>
             <td>с <?=$vacation['date_start'];  ?> по <?=$vacation['date_end'];  ?></td>
             <td><?= $vacation['change_attr']; ?></td>
             <?php if (\Yii::$app->user->can('blockedUpdate') || \Yii::$app->user->can('admin')): ?>
