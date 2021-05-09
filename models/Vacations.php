@@ -67,10 +67,11 @@ class Vacations extends ActiveRecord{
 
 
 
-      public function getId()
-      {
-        return $this->getPrimaryKey();
+
+      public function getInsertId(){
+
       }
+
 
 
 

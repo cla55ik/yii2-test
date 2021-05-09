@@ -54,18 +54,28 @@ class VacationsController extends Controller {
     $current_user = \Yii::$app->user->id;
     $user = User::findOne($current_user);
     $vacation = Vacations::findOne(['user_id'=>$current_user]);
-    $count = Vacations::find()->count();
+    $max = Vacations::find()->max('id');
+
+    if(empty($vacation)){
 
     $model = new Vacations();
     $model->user_id = $current_user;
-    $model->id=$count;
+    $model->id = $max + 1;
+
 
     if($model->load(Yii::$app->request->post()) && $model->save()) {
       return $this->redirect(['index']);
+    }else{
+      Yii::$app->session->setFlash('error', 'Ошибка');
     }
 
       return $this->render('create', ['model' => $model]);
   }
+ else{
+      return $this->redirect(['index']);
+
+}
+}
 
 
 
@@ -77,6 +87,11 @@ class VacationsController extends Controller {
     $vacation = Vacations::findOne(['user_id'=>$current_user]);
 
     $model = Vacations::findOne(['user_id'=>$current_user]);
+
+
+    if(empty($model)){
+      return $this->redirect('create');
+    }
 
     if($model->load(Yii::$app->request->post())){
        if($model->validate()){

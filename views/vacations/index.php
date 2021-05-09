@@ -13,15 +13,18 @@ use yii\helpers\Html;
 
   <div class="row">
     <div class="col control">
-      <?php if(empty($vacation) || $user['id'] == NULL) : ?>
-        <div class="alert alert-warning">
-          Вы еще не запланировали отпуск
-        </div>
-        <?= Html::a('Запланировать отпуск', ['create'], ['class'=>'btn btn-success']);?>
-      <?php else :?>
-        <div class="alert alert-success">
-          Вы запланировали отпуск с <?= $vacation['date_start'];?> до <?= $vacation['date_end'];?>
-        </div>
+      <?php if (\Yii::$app->user->can('updateVacation') || \Yii::$app->user->can('addVacation')): ?>
+
+
+        <?php if(empty($vacation) || $user['id'] == NULL) : ?>
+          <div class="alert alert-warning">
+            Вы еще не запланировали отпуск
+          </div>
+          <?= Html::a('Запланировать отпуск', ['create'], ['class'=>'btn btn-success']);?>
+        <?php else :?>
+          <div class="alert alert-success">
+            Вы запланировали отпуск с <?= $vacation['date_start'];?> до <?= $vacation['date_end'];?>
+          </div>
 
         <?php if($vacation['change_attr']) :?>
           <div class="alert alert-success">
@@ -36,6 +39,7 @@ use yii\helpers\Html;
           </div>
         <?php endif; ?>
       <?php endif;?>
+      <?php endif; ?>
     </div>
   </div>
 <div class="row">
@@ -54,7 +58,10 @@ use yii\helpers\Html;
           <th scope="col">Сотрудник</th>
           <th scope="col">Даты отпуска</th>
           <th scope="col">Статус</th>
-          <th scope="col">Действие</th>
+          <?php if (\Yii::$app->user->can('blockedUpdate') || \Yii::$app->user->can('admin')): ?>
+            <th scope="col">Действие</th>
+          <?php endif; ?>
+
         </tr>
       </thead>
       <tbody>
@@ -68,11 +75,18 @@ use yii\helpers\Html;
             <td><?=$user['username'];  ?></td>
             <td>с <?=$vacation['date_start'];  ?> по <?=$vacation['date_end'];  ?></td>
             <td><?= $vacation['change_attr']; ?></td>
+            <?php if (\Yii::$app->user->can('blockedUpdate') || \Yii::$app->user->can('admin')): ?>
+              <td>
+                <?php if ($vacation['change_attr']): ?>
+                  <?= Html::a('Согласовать и зафиксировать', ['/vacations/block','value' => $vacation['id']], ['class'=>'btn btn-success']) ;?>
+                  <?php else: ?>
 
-            <td>
+                    <?= Html::a('Разрешить редактирование', ['/vacations/block','value' => $vacation['id']], ['class'=>'btn btn-primary']) ;?>
+                <?php endif; ?>
 
-              <?= Html::a('Согласовать и зафиксировать', ['/vacations/block','value' => $vacation['id']], ['class'=>'btn btn-primary']) ;?>
-            </td>
+              </td>
+            <?php endif; ?>
+
           </tr>
         <?php endforeach; ?>
       </tbody>
