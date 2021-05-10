@@ -45,7 +45,7 @@ class VacationsController extends Controller {
   }
 
 
-  
+
 
 
 

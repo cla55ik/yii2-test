@@ -106,4 +106,5 @@ class Vacations extends ActiveRecord{
 
 
 
+
 }

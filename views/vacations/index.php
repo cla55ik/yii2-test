@@ -4,7 +4,7 @@ use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 
 $this->title = 'Отпуск';
-$this->params['breadcrumbs'][] = $this->title;
+
  ?>
 
   <div class="row">
