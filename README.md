@@ -147,7 +147,7 @@ use yii\console\Controller;
 
 
 class MyRbacController extends Controller {
-``
+```
 
 
 
