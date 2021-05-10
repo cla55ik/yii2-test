@@ -234,9 +234,9 @@ public function rules()
 Учетные данные тестовых пользователей
 -------------------------------------
 ### Руководитель
-mg01 / mg01
+- mg01 / mg01
 
 ### Сотрудники
-worker01 / worker01
-worker02 / worker02
-worker03 / worker03
+- worker01 / worker01
+- worker02 / worker02
+- worker03 / worker03
