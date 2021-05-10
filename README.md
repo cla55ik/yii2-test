@@ -1,233 +1,234 @@
 <p align="center">
-    <a href="https://github.com/yiisoft" target="_blank">
-        <img src="https://avatars0.githubusercontent.com/u/993323" height="100px">
-    </a>
-    <h1 align="center">Yii 2 Basic Project Template</h1>
+    <h1 align="center">Тестовое задание. Управление отпусками сотрудников</h1>
     <br>
 </p>
 
-Yii 2 Basic Project Template is a skeleton [Yii 2](http://www.yiiframework.com/) application best for
-rapidly creating small projects.
+Задача:
 
-The template contains the basic features including user login/logout and a contact page.
-It includes all commonly used configurations that would allow you to focus on adding new
-features to your application.
+Нужно сделать простую систему.
 
-[![Latest Stable Version](https://img.shields.io/packagist/v/yiisoft/yii2-app-basic.svg)](https://packagist.org/packages/yiisoft/yii2-app-basic)
-[![Total Downloads](https://img.shields.io/packagist/dt/yiisoft/yii2-app-basic.svg)](https://packagist.org/packages/yiisoft/yii2-app-basic)
-[![build](https://github.com/yiisoft/yii2-app-basic/workflows/build/badge.svg)](https://github.com/yiisoft/yii2-app-basic/actions?query=workflow%3Abuild)
+Есть рядовой сотрудник, который может:
 
-DIRECTORY STRUCTURE
+• ввести начало и конец отпуска;
+
+• посмотреть какие даты отпусков у других сотрудников.
+
+• скорректировать свои даты.
+
+Есть Руководитель, который может:
+
+• так же посмотреть какие даты ввели сотрудники.
+
+• поставить признак, что данные по отпуску конкретного сотрудника зафиксированы.
+
+После этого сотрудник не может скорректировать свои даты
+
+
+РЕАЛИЗАЦИЯ
 -------------------
 
-      assets/             contains assets definition
-      commands/           contains console commands (controllers)
-      config/             contains application configurations
-      controllers/        contains Web controller classes
-      mail/               contains view files for e-mails
-      models/             contains model classes
-      runtime/            contains files generated during runtime
-      tests/              contains various tests for the basic application
-      vendor/             contains dependent 3rd-party packages
-      views/              contains view files for the Web application
-      web/                contains the entry script and Web resources
+Проект выполнен на фреймворке [Yii 2](http://www.yiiframework.com/)
+и размещен на тестовом [домене](http://yii2.siteforyou.ru.com/).
+
+Файлы представлений приложения расположены в директории \views\vacations 
 
 
+Структура базы данных
+----------------------
+Для хранения информации о Пользователях и их Отпусках созданы 2 таблицы:
+User и Vacation соответственно.
 
-REQUIREMENTS
-------------
+В таблице User хранятся данные с именами и должностями пользователей и данные для авторизации пользователей в приложении.  
 
-The minimum requirement by this project template that your Web server supports PHP 5.6.0.
+В таблице Vacation хранятся данные об отпусках: дата начала и дата конца отпуска, ID сотрудника и признак возможности изменеия даты отпуска.
 
-
-INSTALLATION
-------------
-
-### Install via Composer
-
-If you do not have [Composer](http://getcomposer.org/), you may install it by following the instructions
-at [getcomposer.org](http://getcomposer.org/doc/00-intro.md#installation-nix).
-
-You can then install this project template using the following command:
-
-~~~
-composer create-project --prefer-dist yiisoft/yii2-app-basic basic
-~~~
-
-Now you should be able to access the application through the following URL, assuming `basic` is the directory
-directly under the Web root.
-
-~~~
-http://localhost/basic/web/
-~~~
-
-### Install from an Archive File
-
-Extract the archive file downloaded from [yiiframework.com](http://www.yiiframework.com/download/) to
-a directory named `basic` that is directly under the Web root.
-
-Set cookie validation key in `config/web.php` file to some random secret string:
-
-```php
-'request' => [
-    // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-    'cookieValidationKey' => '<secret random string goes here>',
-],
-```
-
-You can then access the application through the following URL:
-
-~~~
-http://localhost/basic/web/
-~~~
-
-
-### Install with Docker
-
-Update your vendor packages
-
-    docker-compose run --rm php composer update --prefer-dist
-    
-Run the installation triggers (creating cookie validation code)
-
-    docker-compose run --rm php composer install    
-    
-Start the container
-
-    docker-compose up -d
-    
-You can then access the application through the following URL:
-
-    http://127.0.0.1:8000
-
-**NOTES:** 
-- Minimum required Docker engine version `17.04` for development (see [Performance tuning for volume mounts](https://docs.docker.com/docker-for-mac/osxfs-caching/))
-- The default configuration uses a host-volume in your home directory `.docker-composer` for composer caches
-
-
-CONFIGURATION
--------------
-
-### Database
-
-Edit the file `config/db.php` with real data, for example:
-
-```php
-return [
-    'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=localhost;dbname=yii2basic',
-    'username' => 'root',
-    'password' => '1234',
-    'charset' => 'utf8',
-];
-```
-
-**NOTES:**
-- Yii won't create the database for you, this has to be done manually before you can access it.
-- Check and edit the other files in the `config/` directory to customize your application as required.
-- Refer to the README in the `tests` directory for information specific to basic application tests.
-
-
-TESTING
--------
-
-Tests are located in `tests` directory. They are developed with [Codeception PHP Testing Framework](http://codeception.com/).
-By default there are 3 test suites:
-
-- `unit`
-- `functional`
-- `acceptance`
-
-Tests can be executed by running
+Работа с данными осуществляется через модели User и Vacations средствами интерфейса ActiveRecord.
 
 ```
-vendor/bin/codecept run
+class Vacations extends ActiveRecord 
 ```
 
-The command above will execute unit and functional tests. Unit tests are testing the system components, while functional
-tests are for testing user interaction. Acceptance tests are disabled by default as they require additional setup since
-they perform testing in real browser. 
 
-
-### Running  acceptance tests
-
-To execute acceptance tests do the following:  
-
-1. Rename `tests/acceptance.suite.yml.example` to `tests/acceptance.suite.yml` to enable suite configuration
-
-2. Replace `codeception/base` package in `composer.json` with `codeception/codeception` to install full featured
-   version of Codeception
-
-3. Update dependencies with Composer 
-
-    ```
-    composer update  
-    ```
-
-4. Download [Selenium Server](http://www.seleniumhq.org/download/) and launch it:
-
-    ```
-    java -jar ~/selenium-server-standalone-x.xx.x.jar
-    ```
-
-    In case of using Selenium Server 3.0 with Firefox browser since v48 or Google Chrome since v53 you must download [GeckoDriver](https://github.com/mozilla/geckodriver/releases) or [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/downloads) and launch Selenium with it:
-
-    ```
-    # for Firefox
-    java -jar -Dwebdriver.gecko.driver=~/geckodriver ~/selenium-server-standalone-3.xx.x.jar
-    
-    # for Google Chrome
-    java -jar -Dwebdriver.chrome.driver=~/chromedriver ~/selenium-server-standalone-3.xx.x.jar
-    ``` 
-    
-    As an alternative way you can use already configured Docker container with older versions of Selenium and Firefox:
-    
-    ```
-    docker run --net=host selenium/standalone-firefox:2.53.0
-    ```
-
-5. (Optional) Create `yii2basic_test` database and update it by applying migrations if you have them.
-
-   ```
-   tests/bin/yii migrate
-   ```
-
-   The database configuration can be found at `config/test_db.php`.
-
-
-6. Start web server:
-
-    ```
-    tests/bin/yii serve
-    ```
-
-7. Now you can run all available tests
-
-   ```
-   # run all available tests
-   vendor/bin/codecept run
-
-   # run acceptance tests
-   vendor/bin/codecept run acceptance
-
-   # run only unit and functional tests
-   vendor/bin/codecept run unit,functional
-   ```
-
-### Code coverage support
-
-By default, code coverage is disabled in `codeception.yml` configuration file, you should uncomment needed rows to be able
-to collect code coverage. You can run your tests and collect coverage with the following command:
+Работа с данными
+----------------
+Управление датами отпуска пользователи осуществляют через форму реализованную виджетом ActiveForm.
 
 ```
-#collect coverage for all tests
-vendor/bin/codecept run --coverage --coverage-html --coverage-xml
+<?php
+use yii\widgets\ActiveForm;
+use yii\helpers\Html;
+ ?>
 
-#collect coverage only for unit tests
-vendor/bin/codecept run unit --coverage --coverage-html --coverage-xml
 
-#collect coverage for unit and functional tests
-vendor/bin/codecept run functional,unit --coverage --coverage-html --coverage-xml
+
+<?php $form = ActiveForm::begin() ?>
+<?= $form->field($model,'date_start')->textInput(['type' => 'date']); ?>
+<?= $form->field($model,'date_end')->textInput(['type' => 'date']); ?>
+<?= Html::submitButton('Сохранить',['class'=>'btn btn-success'])?>
+<?php ActiveForm::end() ?>
 ```
 
-You can see code coverage output under the `tests/_output` directory.
+Планирование отпуска
+--------------------
+Если пользователь еще не указал даты отпуска, выполняется действие Create
+
+~~~
+  public function actionCreate()
+~~~
+
+в контроллере VacationsController.
+При этом создается новый экземпляр объекта Vacations и сохраняется в таблицу Vacation
+
+
+Изменение дат отпуска
+--------------------
+Если пользователь уже планировал отпуск и хочет изменить даты, выполняется действие Update
+
+~~~
+  public function actionUpdate()
+~~~
+
+в контроллере VacationsController.
+При этом вызывается экземпляр объекта модели Vacations и обновляется в таблице Vacation
+
+
+Запрет изменения дат отпуска
+----------------------------
+Разрешение и запрет изменения дат отпуска контролируется атрибутом 
+~~~
+change_attr
+~~~
+у модели Vacation.
+- при значении TRUE - изменение экземпляра Vacation разрешено
+- при значении FALSE - изменение запрещено
+
+Изменение атрибута выполняется действием Block
+~~~
+public function actionBlock($value)
+~~~
+в контроллере VacationController.
+
+### Вызов действия actionBlock
+ Инициализурется на фронте нажатием кнопки с передачей параметра id модели Vacation
+ ```
+ <?= Html::a('Согласовать и зафиксировать', ['/vacations/block','value' => $vacation['id']], ['class'=>'btn btn-success']) ;?>
+ ```
+
+
+Доступ пользователей к данным
+-----------------------------
+Доступ к данным реализован на основе RBAC.
+Каждому пользователю присвоена одна из трех ролей:
+-admin
+-manager - руководитель
+-worker - сотрудник
+
+и заданы разрешения:
+-viewVacation - просмотр отпусков
+-addVacation - добавление отпусков
+-updateVacation - изменение отпусков
+-blockedUpdate - блокировка изменений
+
+
+Назначение ролей и разрешений RBAC производится запуском скрипта MyRbacController, расположенном в директории \commands\
+
+```
+<?php
+namespace app\commands;
+
+
+/*Запуск на сервере 
+php yii my-rbac/init
+*/
+
+
+use Yii;
+use yii\console\Controller;
+
+
+class MyRbacController extends Controller {
+```
+
+
+
+Доступ к разделам приложения настроен в контроллере VacationController:
+```
+public function behaviors()
+  {
+      return [
+          'access' => [
+              'class' => AccessControl::className(),
+
+              'rules' => [
+                  [
+                    'actions' => ['block'],
+                    'allow' => true,
+                    'roles' => ['manager', 'admin'],
+
+                  ],
+                  [
+                    'actions' => ['update', 'create'],
+                    'allow' => true,
+                    'roles' => ['worker', 'admin'],
+
+                  ],
+                  [
+                      'actions' => ['index'],
+                      'allow' => true,
+                      'roles' => ['@'],
+                  ],
+
+
+              ],
+          ],
+
+      ];
+  }
+  ```
+  
+  Доступ к разделу Vacation имеют только авторизованные пользователи.
+  Доступ к добавлению и изменению дат отпуска имеют только пользователи с ролями admin и worker.
+  Доступ к блокировке изменений у пользователей с ролями admin и manager.
+  
+  
+  Проверка разрешений 'updateVacation' и 'addVacation' происходит на слое view и в зависимости от наличия или отсутствия разрешений пользователю отображается необходимая информация
+  
+  
+  ```
+    <?php if (\Yii::$app->user->can('updateVacation') || \Yii::$app->user->can('addVacation')): ?>
+  ```
+
+
+
+Валидация данных
+-------------------------
+Для корректной работы приложения необъодимо соблюдение условий:
+- Дата начала отпуска не может быть в прошлом.
+- Дата окончания отпуска не может быть раньше даты его начала.
+
+Проверка соблюдения этих условий выполняется в модели Vacation:
+```
+public function rules()
+    {
+      return [
+                [['date_start', 'date_end'], 'required', 'message' => 'Заполните это поле'],
+                ['date_start', function(){
+                  $date_start = strtotime($this->date_start);
+                  $today = strtotime(date('d.m.Y'));
+                  if($today > $date_start){
+                    $this->addError('date_start', 'Дата начала отпуска должна быть больше сегодняшней');
+                  }
+                }
+              ],
+              ['date_end', function(){
+                if($this->date_start > $this->date_end){
+                  $this->addError('date_end', 'Дата окончания отпуска должна быть больше даты начала');
+                }
+              }
+            ],
+          ];
+        }
+```
+
+
+
