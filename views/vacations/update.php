@@ -14,7 +14,7 @@ $this->title = 'Изменение';
       <h2> <span><?= $model->getUserFio();?></span></h2>
       <?php if (!$model['change_attr']): ?>
         <div class="alert alert-warning">
-          Даты вашего отпуска устверждены руководителем. Вы не можете их изменить.
+          Даты вашего отпуска утверждены руководителем. Вы не можете их изменить.
         </div>
         <span><?= Html::a('Назад', ['index'], ['class'=>'btn btn-success']);?></span>
       <?php else: ?>

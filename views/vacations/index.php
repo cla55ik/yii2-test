@@ -79,7 +79,7 @@ $this->title = 'Отпуск';
             <th scope="col"><?= $num  ?></th>
             <td><span><?=$user['fio'];?></span><span class="gray-title"><?=$user['post'];?></span></td>
             <td>с <?=$vacation['date_start'];  ?> по <?=$vacation['date_end'];  ?></td>
-            <td><?= $vacation['change_attr']; ?></td>
+            <td><?= ($vacation['change_attr'] ? 'на утверждении' :  'согласован'); ?></td>
             <?php if (\Yii::$app->user->can('blockedUpdate') || \Yii::$app->user->can('admin')): ?>
               <td>
                 <?php if ($vacation['change_attr']): ?>

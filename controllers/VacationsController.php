@@ -117,13 +117,13 @@ class VacationsController extends Controller {
     $attr = $vacation->change_attr;
     if($attr){
       $vacation->change_attr = 0;
-      $vacation->save(false);
+      $vacation->save();
       return $this->redirect(Yii::$app->request->referrer);
 
 
     }else{
       $vacation->change_attr = 1;
-      $vacation->save(false);
+      $vacation->save();
       return $this->redirect(Yii::$app->request->referrer);
 
 

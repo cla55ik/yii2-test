@@ -11,8 +11,10 @@ $this->title = 'Сайт компании';
 
         <p class="lead">Скоро здесь появится многофункциональный сайт</p>
         <p class="lead">Сейчас можно управлять отпусками сотрудников</p>
+        <div class="index-btn">
+          <?= Html::a('Управлять отпуском', ['/vacations/index'], ['class'=>'btn btn-success']);?>
+        </div>
 
-        <?= Html::a('Управлять отпуском', ['/vacations/index'], ['class'=>'btn btn-success']);?>
     </div>
 
 

@@ -139,3 +139,7 @@ a.desc:after {
 input, .btn{
   border-radius: 0px !important;
 }
+
+.index-btn {
+  margin-top:40px;
+}

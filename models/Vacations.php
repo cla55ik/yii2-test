@@ -32,8 +32,7 @@ class Vacations extends ActiveRecord{
     public function rules()
     {
       return [
-        [['date_start', 'date_end'], 'required'],
-        [['date_start', 'date_end'], 'safe'],
+        [['date_start', 'date_end'], 'required', 'message' => 'Заполните это поле'],
         ['date_start', function(){
             $date_start = strtotime($this->date_start);
 
@@ -60,6 +59,7 @@ class Vacations extends ActiveRecord{
           $this->date_start = date('d.m.Y',$date_start);
           $date_end = strtotime($this->date_end);
           $this->date_end = date('d.m.Y',$date_end);
+
 
         }
 
