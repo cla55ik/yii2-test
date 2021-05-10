@@ -32,25 +32,23 @@ class Vacations extends ActiveRecord{
     public function rules()
     {
       return [
-        [['date_start', 'date_end'], 'required', 'message' => 'Заполните это поле'],
-        ['date_start', function(){
-            $date_start = strtotime($this->date_start);
-
-            $today = strtotime(date('d.m.Y'));
-            if($today > $date_start){
-              $this->addError('date_start', 'Дата начала отпуска должна быть больше сегодняшней');
-            }
-          }
-        ],
-        ['date_end', function(){
-            if($this->date_start > $this->date_end){
-              $this->addError('date_end', 'Дата окончания отпуска должна быть больше даты начала');
-            }
+                [['date_start', 'date_end'], 'required', 'message' => 'Заполните это поле'],
+                ['date_start', function(){
+                  $date_start = strtotime($this->date_start);
+                  $today = strtotime(date('d.m.Y'));
+                  if($today > $date_start){
+                    $this->addError('date_start', 'Дата начала отпуска должна быть больше сегодняшней');
+                  }
+                }
+              ],
+              ['date_end', function(){
+                if($this->date_start > $this->date_end){
+                  $this->addError('date_end', 'Дата окончания отпуска должна быть больше даты начала');
+                }
+              }
+            ],
+          ];
         }
-
-      ],
-      ];
-    }
 
 
       public function afterFind()
@@ -59,8 +57,6 @@ class Vacations extends ActiveRecord{
           $this->date_start = date('d.m.Y',$date_start);
           $date_end = strtotime($this->date_end);
           $this->date_end = date('d.m.Y',$date_end);
-
-
         }
 
 
@@ -70,7 +66,6 @@ class Vacations extends ActiveRecord{
           $this->date_start = date('Y-m-d', $date_start);
           $date_end = strtotime($this->date_end);
           $this->date_end = date('Y-m-d', $date_end);
-
           return parent::beforeSave($insert);
         }
 
@@ -95,7 +90,6 @@ class Vacations extends ActiveRecord{
 
       public function getUserFio(){
         $user = User::findOne(['id'=>User::findIdentity(\Yii::$app->user->id)]);
-
         return $user->getFio();
       }
 
