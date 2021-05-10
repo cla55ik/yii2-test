@@ -105,6 +105,7 @@ change_attr
 public function actionBlock($value)
 ~~~
 в контроллере VacationController.
+
 ### Вызов действия actionBlock
  Инициализурется на фронте нажатием кнопки с передачей параметра id модели Vacation
  ```
@@ -125,6 +126,27 @@ public function actionBlock($value)
 -addVacation - добавление отпусков
 -updateVacation - изменение отпусков
 -blockedUpdate - блокировка изменений
+
+
+Назначение ролей и разрешений RBAC производится запуском скрипта MyRbacController, расположенном в директории \commands\
+
+```
+<?php
+namespace app\commands;
+
+
+/*Запуск на сервере 
+php yii my-rbac/init
+*/
+
+
+use Yii;
+use yii\console\Controller;
+
+
+class MyRbacController extends Controller {
+``
+
 
 
 Доступ к разделам приложения настроен в контроллере VacationController:
